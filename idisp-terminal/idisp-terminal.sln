@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "idsip-terminal", "idsip-terminal\idsip-terminal.csproj", "{605B7C41-2D7E-4120-B0E2-D6560D448FA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "idisp-test", "idisp-test\idisp-test.csproj", "{6AD22736-1134-401E-B6F8-5B7519B89D38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{605B7C41-2D7E-4120-B0E2-D6560D448FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{605B7C41-2D7E-4120-B0E2-D6560D448FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{605B7C41-2D7E-4120-B0E2-D6560D448FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD22736-1134-401E-B6F8-5B7519B89D38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD22736-1134-401E-B6F8-5B7519B89D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD22736-1134-401E-B6F8-5B7519B89D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD22736-1134-401E-B6F8-5B7519B89D38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
