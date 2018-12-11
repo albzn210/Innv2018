@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {TerminalService} from '../terminal.service';
+import { TerminalCommand } from '../terminal.service.messages';
 
 @Component({
   selector: 'app-idle',
@@ -8,16 +9,25 @@ import {TerminalService} from '../terminal.service';
 })
 export class IdleComponent implements OnInit {
 
-  /*constructor(private terminalService: TerminalService) {
-    terminalService.messages.subscribe(msg => {
-      switch (msg.command) {
-        case 'sleep': {
-          break;
-        }
-      }
-    });
-  }*/
+  @Input() state: string;
+
+  constructor(private terminalService: TerminalService) {
+  }
 
   ngOnInit() {
+  }
+
+  class() {
+    if (this.state === 'idle') {
+      return 'rfid';
+    } else if (this.state === 'transaction') {
+      return 'rfid success';
+    } else {
+      return '';
+    }
+  }
+
+  confirm() {
+    this.terminalService.send(new TerminalCommand('ConfirmAll'));
   }
 }

@@ -1,0 +1,175 @@
+.buttons {
+	position: absolute;
+	top: 500px;
+}
+
+/* hide circle as we do not want to see it */
+.circle {
+	visibility: hidden;
+}
+
+/* svg */
+.rfid {
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	/*height: 1000px;*/
+}
+/* hide smartphone */
+.smartphone {
+	opacity: 0;
+}
+
+.phone-frame {
+	fill: #fff;
+}
+.phone-screen {
+	fill: #000;
+	transition-delay: .4s;
+	transition-timing-function: ease-in;
+}
+
+.phone-button {
+	fill: #000;
+}
+
+.phonetext {
+	opacity: 1;
+	fill: #fff;
+	transition-delay: .4s;
+	transition-timing-function: ease-in;
+}
+
+/* animation of center circle */
+/*
+@keyframes swingCircle {
+	0% {
+		visibility: visible;
+		transform: scale(1);
+		transform-origin: 530px 850px;
+	}
+	60% {
+		transform: scale(10);
+		transform-origin: 530px 850px;
+	}
+	100% {
+		transform: scale(0);
+		transform-origin: 530px 850px;
+	}
+}
+*/
+
+/* animation smartphone */
+@keyframes phoneShow {
+	0% {
+		opacity: 0;
+		transform: scale(2);
+		transform-origin: 530px 850px;
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1.8) rotate(10deg);
+		transform-origin: 530px 850px;
+	}
+}
+
+/*animation of left rfid waves - swing */
+@keyframes slideLeftSwing {
+	0% {
+		visibility: visible;
+		transform: translate(-160px, 0);
+		transform-origin: center;
+	}
+	50% {
+		transform: translate(-200px, 0);
+		transform-origin: center;
+	}
+	100% {
+		transform: translate(-160px, 0);
+		transform-origin: center;
+	}
+}
+
+
+/* animation of right rfid waves - swing */
+@keyframes slideRightSwing {
+	0% {
+		visibility: visible;
+		transform: translate(160px, 0);
+		transform-origin: center;
+	}
+	50% {
+		transform: translate(200px, 0);
+		transform-origin: center;
+	}
+	100% {
+		transform: translate(160px, 0);
+		transform-origin: center;
+	}
+}
+
+/* animation of waves after success */
+@keyframes successWaves {
+	0% {
+		fill: green;
+		transform: scale(1);
+		transform-origin: 530px 850px;
+	}
+	60% {
+		transform: scale(1.4);
+		transform-origin: 530px 850px;
+	}
+	100% {
+		transform: scale(.1);
+		transform-origin: 530px 850px;
+	}
+}
+
+.circle {
+	fill: #fdd631;
+	animation: swingCircle .5s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards;
+}
+
+.left {
+	fill: #ffd631;
+	animation: slideLeftSwing .7s;
+	animation-delay: 0.4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.right {
+	fill: #ffd631;
+	animation: slideRightSwing .7s;
+	animation-delay: 0.4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.smartphone {
+	animation: phoneShow .6s;
+	animation-delay: .6s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards;
+}
+
+.success .left, .success .right {
+	fill: #1fdf6c;
+}
+
+.success .waves {
+	animation: successWaves .5s;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+.success .phone-screen {
+	fill: #1fdf6c;
+}
+
+.success .phonetext {
+	opacity: 0;
+}

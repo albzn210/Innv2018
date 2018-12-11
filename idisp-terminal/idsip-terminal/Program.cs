@@ -9,11 +9,20 @@ namespace idsip_terminal
     {
         private static ManualResetEvent rfidReadEvent = new ManualResetEvent(false);
 
+        private static ManualResetEvent confirmTransactionEvent = new ManualResetEvent(false);
+
+        private static ManualResetEvent confirmPaymentEvent = new ManualResetEvent(false);
+
+        private static ManualResetEvent confirmAllEvent = new ManualResetEvent(false);
+
         public static void Main(string[] args)
         {
             var wssv = new WebSocketServer("ws://localhost:8080");
             wssv.AddWebSocketService<UITerminal>("/service");
             wssv.Start();
+
+            UITerminal.UiEvent += UICommandFired;
+            WebSocketSessionManager session = wssv.WebSocketServices["/service"].Sessions;
 
             var nfcReader = new RFIDReader();
             nfcReader.ReadEvent += ReadEventRaised;
@@ -21,8 +30,9 @@ namespace idsip_terminal
             while (true)
             {
                 rfidReadEvent.Reset();
-                UITerminal.confirmTransactionEvent.Reset();
-                UITerminal.confirmPaymentEvent.Reset();
+                confirmTransactionEvent.Reset();
+                confirmPaymentEvent.Reset();
+                confirmAllEvent.Reset();
 
                 nfcReader.StartRead();
 
@@ -30,13 +40,22 @@ namespace idsip_terminal
                 {
                     nfcReader.StopRead();
 
-                    wssv.WebSocketServices["/service"].Sessions.Broadcast(JsonConvert.SerializeObject(new Messages
+                    session.Broadcast(JsonConvert.SerializeObject(new Messages
                     {
                         Command = "View",
                         Args = "transaction"
                     }));
 
-                    wssv.WebSocketServices["/service"].Sessions.Broadcast(JsonConvert.SerializeObject(new Messages
+                    if (confirmAllEvent.WaitOne())
+                    {
+                        session.Broadcast(JsonConvert.SerializeObject(new Messages
+                        {
+                            Command = "View",
+                            Args = "idle"
+                        }));
+                    }
+
+                    /*session.Broadcast(JsonConvert.SerializeObject(new Messages
                     {
                         Command = "Transaction",
                         Args = new Transaction
@@ -48,15 +67,15 @@ namespace idsip_terminal
                         }
                     }));
 
-                    if (UITerminal.confirmTransactionEvent.WaitOne())
+                    if (confirmTransactionEvent.WaitOne())
                     {
-                        wssv.WebSocketServices["/service"].Sessions.Broadcast(JsonConvert.SerializeObject(new Messages
+                        session.Broadcast(JsonConvert.SerializeObject(new Messages
                         {
                             Command = "View",
                             Args = "payment"
                         }));
 
-                        wssv.WebSocketServices["/service"].Sessions.Broadcast(JsonConvert.SerializeObject(new Messages
+                        session.Broadcast(JsonConvert.SerializeObject(new Messages
                         {
                             Command = "Payment",
                             Args = new Payment
@@ -65,22 +84,56 @@ namespace idsip_terminal
                             }
                         }));
 
-                        if (UITerminal.confirmPaymentEvent.WaitOne())
+                        if (confirmPaymentEvent.WaitOne())
                         {
-                            wssv.WebSocketServices["/service"].Sessions.Broadcast(JsonConvert.SerializeObject(new Messages
+                            session.Broadcast(JsonConvert.SerializeObject(new Messages
                             {
                                 Command = "View",
                                 Args = "confirm"
                             }));
+
+                            if (confirmAllEvent.WaitOne())
+                            {
+                                session.Broadcast(JsonConvert.SerializeObject(new Messages
+                                {
+                                    Command = "View",
+                                    Args = "idle"
+                                }));
+                            }
                         }
-                    }
+                    }*/
                 }
             }
         }
 
         static void ReadEventRaised(object sender, EventArgs e)
         {
+            var args = e as NfcReaderReadEventArgs;
             rfidReadEvent.Set();
+        }
+
+        static void UICommandFired(object sender, EventArgs e)
+        {
+            var args = e as UIEventArgs;
+            switch (args.UIEvent)
+            {
+                case UIEvent.ConfirmTransaction:
+                    confirmTransactionEvent.Set();
+                    break;
+                case UIEvent.DeclineTransaction:
+                    break;
+                case UIEvent.ConfirmPayment:
+                    confirmPaymentEvent.Set();
+                    break;
+                case UIEvent.DeclinePayment:
+                    break;
+                case UIEvent.ConfirmAll:
+                    confirmAllEvent.Set();
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

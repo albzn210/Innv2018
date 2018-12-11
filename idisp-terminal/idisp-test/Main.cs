@@ -11,7 +11,7 @@ namespace idisp_test
 
             reader.StartRead();
 
-            System.Threading.Thread.Sleep(10000);
+            System.Threading.Thread.Sleep(100000);
             reader.StopRead();
             reader.Close();
         }

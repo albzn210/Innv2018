@@ -2,13 +2,15 @@
 
 namespace idsip_terminal
 {
-    class ReadEventArgs : EventArgs
+    class NfcReaderReadEventArgs : EventArgs
     {
         public byte[] Message { get; private set; }
 
-        public ReadEventArgs(byte[] Message)
+        public NfcReaderReadEventArgs(byte[] Message)
         {
-            this.Message = Message;
+            this.Message = new byte[9];
+            Array.Copy(Message, 5, this.Message, 0, 9);
+            BitConverter.ToString(this.Message, 0, 9);
         }
     }
 }

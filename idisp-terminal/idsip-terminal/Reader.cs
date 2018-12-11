@@ -20,8 +20,8 @@ namespace idsip_terminal
             },
             (byte[] message) =>
             {
-                Console.WriteLine("Message: " + message);
-                ReadEvent?.Invoke(this, new ReadEventArgs(message));
+                Console.WriteLine("NFC read with ID: " + BitConverter.ToString(message, 0, message.Length));
+                ReadEvent?.Invoke(this, new NfcReaderReadEventArgs(message));
             },
             commands,
             31, 115200);

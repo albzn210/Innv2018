@@ -1,1 +1,3 @@
-<router-outlet></router-outlet>
+<div *ngIf="state == 'idle' || state == 'transaction'">
+    <app-idle [state]="state"></app-idle>
+</div>

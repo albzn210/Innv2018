@@ -55,6 +55,7 @@
     <Compile Include="Reader.cs" />
     <Compile Include="ReadEventArgs.cs" />
     <Compile Include="SdComm.cs" />
+    <Compile Include="UIEventArgs.cs" />
     <Compile Include="UITerminal.cs" />
   </ItemGroup>
   <ItemGroup>
